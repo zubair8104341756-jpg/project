@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6baf;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --light-text: #212529;
+            --dark-text: #f8f9fa;
+            --light-card: #ffffff;
+            --dark-card: #343a40;
+            --light-border: #dee2e6;
+            --dark-border: #495057;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a i {
+            margin-right: 5px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Authentication Section */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+            padding: 20px 0;
+        }
+
+        .auth-card {
+            background-color: var(--light-card);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .auth-card {
+            background-color: var(--dark-card);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .auth-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-border);
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--light-card);
+            color: var(--light-text);
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .form-control {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 175, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #3a5a9f;
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-switch a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            padding: 20px 0;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--light-card);
+            border-radius: 10px;
+            padding: 20px;
+            margin-right: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .sidebar {
+            background-color: var(--dark-card);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            color: var(--light-text);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .sidebar-menu a {
+            color: var(--dark-text);
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: rgba(74, 107, 175, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .content-area {
+            flex: 1;
+        }
+
+        .card {
+            background-color: var(--light-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .card {
+            background-color: var(--dark-card);
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light-border);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .card-header {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Create Post */
+        .create-post {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .create-post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .create-post-form {
+            flex: 1;
+        }
+
+        .create-post-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid var(--light-border);
+            border-radius: 5px;
+            resize: none;
+            background-color: var(--light-card);
+            color: var(--light-text);
+            margin-bottom: 10px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .create-post-textarea {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .create-post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .create-post-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .create-post-option {
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .create-post-option:hover {
+            color: var(--primary-color);
+        }
+
+        /* Post */
+        .post {
+            border-bottom: 1px solid var(--light-border);
+            padding: 20px;
+        }
+
+        body.dark-mode .post {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-header {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .post-user-info {
+            flex: 1;
+        }
+
+        .post-username {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .post-time {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .post-action:hover {
+            color: var(--primary-color);
+        }
+
+        .post-action.liked {
+            color: var(--danger-color);
+        }
+
+        .post-action i {
+            margin-right: 5px;
+        }
+
+        .post-comments {
+            margin-top: 15px;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .comment-content {
+            flex: 1;
+            background-color: var(--light-bg);
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark-mode .comment-content {
+            background-color: var(--dark-bg);
+        }
+
+        .comment-username {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .comment-text {
+            margin-bottom: 5px;
+        }
+
+        .comment-time {
+            font-size: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        .add-comment {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .add-comment-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--light-border);
+            border-radius: 20px;
+            background-color: var(--light-card);
+            color: var(--light-text);
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .add-comment-input {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .add-comment-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Profile */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-college {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-college i {
+            margin-right: 5px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat-value {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .profile-stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .profile-bio {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Search */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-border);
+            border-radius: 25px;
+            background-color: var(--light-card);
+            color: var(--light-text);
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        body.dark-mode .search-input {
+            background-color: var(--dark-card);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .search-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light-border);
+        }
+
+        body.dark-mode .search-tabs {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .search-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .search-tab:hover {
+            color: var(--primary-color);
+        }
+
+        .search-tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .user-card:hover {
+            background-color: rgba(74, 107, 175, 0.05);
+        }
+
+        body.dark-mode .user-card:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .user-card-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .user-card-info {
+            flex: 1;
+        }
+
+        .user-card-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .user-card-college {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+
+        /* College Selection */
+        .college-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--light-border);
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        body.dark-mode .college-list {
+            border-color: var(--dark-border);
+        }
+
+        .college-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .college-item:hover {
+            background-color: rgba(74, 107, 175, 0.1);
+        }
+
+        .college-item.selected {
+            background-color: rgba(74, 107, 175, 0.2);
+            font-weight: 600;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: var(--success-color);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-out;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+
+        .notification.warning {
+            background-color: var(--warning-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-results {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-card {
+                padding: 20px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    College Connect
+                </div>
+                <div class="nav-links">
+                    <a href="#" id="home-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="#" id="profile-link"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#" id="search-link"><i class="fas fa-search"></i> Search</a>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Authentication Section -->
+    <div class="auth-container" id="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Welcome to College Connect</h2>
+                <p>Connect with students from your college</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" class="form-control" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" class="form-control" id="login-password" placeholder="Enter your password"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-block">Login</button>
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" id="show-signup">Sign Up</a>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" style="display: none;">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" class="form-control" id="signup-name" placeholder="Enter your full name"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" class="form-control" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" class="form-control" id="signup-password" placeholder="Create a password"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="college-search">College</label>
+                    <input type="text" class="form-control" id="college-search" placeholder="Search for your college"
+                        required>
+                    <div class="college-list" id="college-list"></div>
+                    <button type="button" class="btn btn-outline btn-block" id="create-college-btn"
+                        style="display: none; margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Create New College
+                    </button>
+                </div>
+                <button type="submit" class="btn btn-block">Sign Up</button>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" id="show-login">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div class="main-content" id="main-content" style="display: none;">
+        <div class="container">
+            <div class="main-content">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active" data-page="home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#" data-page="profile"><i class="fas fa-user"></i> My Profile</a></li>
+                        <li><a href="#" data-page="search"><i class="fas fa-search"></i> Search</a></li>
+                        <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- Content Area -->
+                <div class="content-area">
+                    <!-- Home Page -->
+                    <div id="home-page" class="page">
+                        <!-- Create Post -->
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="create-post">
+                                    <img src="https://picsum.photos/seed/user1/50/50.jpg" alt="User"
+                                        class="create-post-avatar" id="create-post-avatar">
+                                    <div class="create-post-form">
+                                        <textarea class="create-post-textarea" placeholder="What's on your mind?"
+                                            id="post-content"></textarea>
+                                        <div class="create-post-actions">
+                                            <div class="create-post-options">
+                                                <div class="create-post-option">
+                                                    <i class="fas fa-image"></i> Photo
+                                                </div>
+                                                <div class="create-post-option">
+                                                    <i class="fas fa-smile"></i> Feeling
+                                                </div>
+                                            </div>
+                                            <button class="btn" id="post-btn">Post</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Posts Feed -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Recent Posts</span>
+                                <div class="dropdown">
+                                    <select class="form-control" id="feed-filter" style="width: auto;">
+                                        <option value="all">All Posts</option>
+                                        <option value="following">Following</option>
+                                        <option value="popular">Most Popular</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="posts-feed">
+                                    <!-- Posts will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Page -->
+                    <div id="profile-page" class="page" style="display: none;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="profile-header">
+                                    <img src="https://picsum.photos/seed/user1/100/100.jpg" alt="Profile"
+                                        class="profile-avatar" id="profile-avatar">
+                                    <div class="profile-info">
+                                        <h2 class="profile-name" id="profile-name">John Doe</h2>
+                                        <div class="profile-college">
+                                            <i class="fas fa-university"></i>
+                                            <span id="profile-college">Harvard University</span>
+                                        </div>
+                                        <div class="profile-stats">
+                                            <div class="profile-stat">
+                                                <div class="profile-stat-value" id="profile-posts">0</div>
+                                                <div class="profile-stat-label">Posts</div>
+                                            </div>
+                                            <div class="profile-stat">
+                                                <div class="profile-stat-value" id="profile-following">0</div>
+                                                <div class="profile-stat-label">Following</div>
+                                            </div>
+                                            <div class="profile-stat">
+                                                <div class="profile-stat-value" id="profile-followers">0</div>
+                                                <div class="profile-stat-label">Followers</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="profile-bio" id="profile-bio">Computer Science student passionate about AI and
+                                    machine learning.</p>
+                                <div class="profile-actions">
+                                    <button class="btn" id="edit-profile-btn">Edit Profile</button>
+                                    <button class="btn btn-outline" id="share-profile-btn">Share Profile</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User's Posts -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span>My Posts</span>
+                            </div>
+                            <div class="card-body">
+                                <div id="user-posts">
+                                    <!-- User's posts will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Page -->
+                    <div id="search-page" class="page" style="display: none;">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="search-container">
+                                    <input type="text" class="search-input"
+                                        placeholder="Search for posts, users, or colleges..." id="search-input">
+                                </div>
+                                <div class="search-tabs">
+                                    <div class="search-tab active" data-search-type="posts">Posts</div>
+                                    <div class="search-tab" data-search-type="users">Users</div>
+                                    <div class="search-tab" data-search-type="colleges">Colleges</div>
+                                </div>
+                                <div id="search-results">
+                                    <!-- Search results will be dynamically added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // App State
+        const app = {
+            currentUser: null,
+            colleges: [],
+            users: [],
+            posts: [],
+            follows: [],
+            currentPage: 'home',
+            darkMode: false,
+            selectedCollege: null
+        };
+
+        // DOM Elements
+        const authContainer = document.getElementById('auth-container');
+        const mainContent = document.getElementById('main-content');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const showSignupLink = document.getElementById('show-signup');
+        const showLoginLink = document.getElementById('show-login');
+        const collegeSearch = document.getElementById('college-search');
+        const collegeList = document.getElementById('college-list');
+        const createCollegeBtn = document.getElementById('create-college-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const notification = document.getElementById('notification');
+        const logoutBtn = document.getElementById('logout-btn');
+        const postBtn = document.getElementById('post-btn');
+        const postContent = document.getElementById('post-content');
+        const postsFeed = document.getElementById('posts-feed');
+        const feedFilter = document.getElementById('feed-filter');
+        const searchInput = document.getElementById('search-input');
+        const searchTabs = document.querySelectorAll('.search-tab');
+        const searchResults = document.getElementById('search-results');
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a[data-page]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const profileName = document.getElementById('profile-name');
+        const profileCollege = document.getElementById('profile-college');
+        const profileBio = document.getElementById('profile-bio');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const profilePosts = document.getElementById('profile-posts');
+        const profileFollowing = document.getElementById('profile-following');
+        const profileFollowers = document.getElementById('profile-followers');
+        const userPosts = document.getElementById('user-posts');
+
+        // Initialize App
+        function initApp() {
+            loadFromLocalStorage();
+            checkAuthState();
+            setupEventListeners();
+            applyTheme();
+        }
+
+        // Load data from LocalStorage
+        function loadFromLocalStorage() {
+    const savedColleges = localStorage.getItem('colleges');
+    const savedUsers = localStorage.getItem('users');
+    const savedPosts = localStorage.getItem('posts');
+    const savedFollows = localStorage.getItem('follows');
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedColleges) app.colleges = JSON.parse(savedColleges);
+    if (savedUsers) app.users = JSON.parse(savedUsers);
+    if (savedPosts) app.posts = JSON.parse(savedPosts);
+    if (savedFollows) app.follows = JSON.parse(savedFollows);
+    if (savedTheme) app.darkMode = savedTheme === 'dark';
+
+    // 🔧 Normalize users (make sure avatar & bio exist)
+    app.users = app.users.map(u => ({
+        ...u,
+        bio: u.bio || '',
+        avatar: u.avatar || `https://picsum.photos/seed/user${u.id}/100/100.jpg`
+    }));
+
+    // 🔧 Normalize posts (make sure likes & comments exist)
+    app.posts = app.posts.map(p => ({
+        ...p,
+        likes: p.likes || [],
+        comments: p.comments || []
+    }));
+
+    // Add default colleges if none exist
+    if (app.colleges.length === 0) {
+        app.colleges = [
+            { id: 1, name: 'Harvard University' },
+            { id: 2, name: 'Stanford University' },
+            { id: 3, name: 'MIT' },
+            { id: 4, name: 'UC Berkeley' },
+            { id: 5, name: 'Yale University' }
+        ];
+    }
+
+    saveToLocalStorage(); // save fixed data back
+}
+        // Save data to LocalStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('colleges', JSON.stringify(app.colleges));
+            localStorage.setItem('users', JSON.stringify(app.users));
+            localStorage.setItem('posts', JSON.stringify(app.posts));
+            localStorage.setItem('follows', JSON.stringify(app.follows));
+            localStorage.setItem('theme', app.darkMode ? 'dark' : 'light');
+        }
+
+        // Check authentication state
+        function checkAuthState() {
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                app.currentUser = JSON.parse(savedUser);
+                showMainContent();
+                loadUserProfile();
+                loadPosts();
+            } else {
+                showAuthForm();
+            }
+        }
+
+        // Show authentication form
+        function showAuthForm() {
+            authContainer.style.display = 'flex';
+            mainContent.style.display = 'none';
+        }
+
+        // Show main content
+        function showMainContent() {
+            authContainer.style.display = 'none';
+            mainContent.style.display = 'block';
+            showPage(app.currentPage);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Authentication forms
+            loginForm.addEventListener('submit', handleLogin);
+            signupForm.addEventListener('submit', handleSignup);
+            showSignupLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            });
+            showLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            });
+
+            // College search
+            collegeSearch.addEventListener('input', handleCollegeSearch);
+            createCollegeBtn.addEventListener('click', handleCreateCollege);
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Logout
+            logoutBtn.addEventListener('click', handleLogout);
+
+            // Create post
+            postBtn.addEventListener('click', handleCreatePost);
+
+            // Feed filter
+            feedFilter.addEventListener('change', handleFeedFilter);
+
+            // Search
+            searchInput.addEventListener('input', handleSearch);
+            searchTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    searchTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    handleSearch();
+                });
+            });
+
+            // Navigation
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.getAttribute('href').substring(1);
+                    showPage(page);
+                });
+            });
+
+            // Edit profile
+            editProfileBtn.addEventListener('click', handleEditProfile);
+        }
+
+        // Handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = app.users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                app.currentUser = user;
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                showNotification('Login successful!', 'success');
+                showMainContent();
+                loadUserProfile();
+                loadPosts();
+            } else {
+                showNotification('Invalid email or password', 'error');
+            }
+        }
+
+        // Handle signup
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            if (!app.selectedCollege) {
+                showNotification('Please select or create a college', 'warning');
+                return;
+            }
+
+            // Check if email already exists
+            if (app.users.some(u => u.email === email)) {
+                showNotification('Email already in use', 'error');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                password,
+                collegeId: app.selectedCollege.id,
+                bio: '',
+                avatar: `https://picsum.photos/seed/user${Date.now()}/100/100.jpg`
+            };
+
+            app.users.push(newUser);
+            saveToLocalStorage();
+
+            app.currentUser = newUser;
+            sessionStorage.setItem('currentUser', JSON.stringify(newUser));
+            showNotification('Account created successfully!', 'success');
+            showMainContent();
+            loadUserProfile();
+            loadPosts();
+        }
+
+        // Handle college search
+        function handleCollegeSearch() {
+            const query = collegeSearch.value.toLowerCase();
+            collegeList.innerHTML = '';
+
+            if (query.length > 0) {
+                const filteredColleges = app.colleges.filter(college =>
+                    college.name.toLowerCase().includes(query)
+                );
+
+                if (filteredColleges.length > 0) {
+                    filteredColleges.forEach(college => {
+                        const collegeItem = document.createElement('div');
+                        collegeItem.className = 'college-item';
+                        collegeItem.textContent = college.name;
+                        collegeItem.addEventListener('click', () => {
+                            app.selectedCollege = college;
+                            collegeSearch.value = college.name;
+                            collegeList.innerHTML = '';
+                            createCollegeBtn.style.display = 'none';
+                        });
+                        collegeList.appendChild(collegeItem);
+                    });
+                } else {
+                    createCollegeBtn.style.display = 'block';
+                }
+            } else {
+                createCollegeBtn.style.display = 'none';
+            }
+        }
+
+        // Handle create college
+        function handleCreateCollege() {
+            const collegeName = collegeSearch.value.trim();
+            if (collegeName) {
+                const newCollege = {
+                    id: Date.now(),
+                    name: collegeName
+                };
+                app.colleges.push(newCollege);
+                app.selectedCollege = newCollege;
+                saveToLocalStorage();
+                collegeList.innerHTML = '';
+                createCollegeBtn.style.display = 'none';
+                showNotification(`College "${collegeName}" created successfully!`, 'success');
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            app.darkMode = !app.darkMode;
+            applyTheme();
+            saveToLocalStorage();
+        }
+
+        // Apply theme
+        function applyTheme() {
+            if (app.darkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            app.currentUser = null;
+            sessionStorage.removeItem('currentUser');
+            showAuthForm();
+            showNotification('Logged out successfully', 'success');
+        }
+
+        // Handle create post
+        function handleCreatePost() {
+            const content = postContent.value.trim();
+            if (!content) {
+                showNotification('Post content cannot be empty', 'warning');
+                return;
+            }
+
+            const newPost = {
+                id: Date.now(),
+                userId: app.currentUser.id,
+                content,
+                timestamp: new Date().toISOString(),
+                likes: [],
+                comments: []
+            };
+
+            app.posts.push(newPost);
+            saveToLocalStorage();
+            postContent.value = '';
+            loadPosts();
+            showNotification('Post created successfully!', 'success');
+        }
+
+        // Load posts
+        function loadPosts() {
+            postsFeed.innerHTML = '';
+
+            let filteredPosts = [...app.posts];
+
+            // Filter by college
+            filteredPosts = filteredPosts.filter(post => {
+                const user = app.users.find(u => u.id === post.userId);
+                return user && user.collegeId === app.currentUser.collegeId;
+            });
+
+            // Apply feed filter
+            const filterValue = feedFilter.value;
+            if (filterValue === 'following') {
+                const followingIds = app.follows
+                    .filter(f => f.followerId === app.currentUser.id)
+                    .map(f => f.followedId);
+
+                filteredPosts = filteredPosts.filter(post =>
+                    followingIds.includes(post.userId) || post.userId === app.currentUser.id
+                );
+            } else if (filterValue === 'popular') {
+                filteredPosts.sort((a, b) => b.likes.length - a.likes.length);
+            } else {
+                // Sort by timestamp (newest first)
+                filteredPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+
+            if (filteredPosts.length === 0) {
+                postsFeed.innerHTML = '<p>No posts found. Be the first to post!</p>';
+                return;
+            }
+
+            filteredPosts.forEach(post => {
+                const postElement = createPostElement(post);
+                postsFeed.appendChild(postElement);
+            });
+        }
+
+        // Create post element
+        function createPostElement(post) {
+            const user = app.users.find(u => u.id === post.userId);
+            if (!user) return document.createElement('div');
+
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            postDiv.dataset.postId = post.id;
+
+            const isLiked = (post.likes || []).includes(app.currentUser.id);
+
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <img src="${user.avatar}" alt="${user.name}" class="post-avatar">
+                    <div class="post-user-info">
+                        <div class="post-username">${user.name}</div>
+                        <div class="post-time">${formatDate(post.timestamp)}</div>
+                    </div>
+                </div>
+                <div class="post-content">${post.content}</div>
+                <div class="post-actions">
+                    <div class="post-action ${isLiked ? 'liked' : ''}" data-action="like">
+                        <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
+                        <span>${post.likes.length}</span>
+                    </div>
+                    <div class="post-action" data-action="comment">
+                        <i class="far fa-comment"></i>
+                        <span>${post.comments.length}</span>
+                    </div>
+                    <div class="post-action" data-action="follow">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Follow</span>
+                    </div>
+                </div>
+                <div class="post-comments">
+                    ${post.comments.map(comment => {
+                const commentUser = app.users.find(u => u.id === comment.userId);
+                return commentUser ? `
+                            <div class="comment">
+                                <img src="${commentUser.avatar}" alt="${commentUser.name}" class="comment-avatar">
+                                <div class="comment-content">
+                                    <div class="comment-username">${commentUser.name}</div>
+                                    <div class="comment-text">${comment.text}</div>
+                                    <div class="comment-time">${formatDate(comment.timestamp)}</div>
+                                </div>
+                            </div>
+                        ` : '';
+            }).join('')}
+                    <div class="add-comment">
+                        <input type="text" class="add-comment-input" placeholder="Add a comment...">
+                    </div>
+                </div>
+            `;
+
+            // Add event listeners
+            const likeBtn = postDiv.querySelector('[data-action="like"]');
+            likeBtn.addEventListener('click', () => toggleLike(post.id));
+
+            const commentInput = postDiv.querySelector('.add-comment-input');
+            commentInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addComment(post.id, commentInput.value);
+                    commentInput.value = '';
+                }
+            });
+
+            const followBtn = postDiv.querySelector('[data-action="follow"]');
+            followBtn.addEventListener('click', () => toggleFollow(user.id));
+
+            // Update follow button text
+            const isFollowing = app.follows.some(f =>
+                f.followerId === app.currentUser.id && f.followedId === user.id
+            );
+            followBtn.innerHTML = `<i class="fas fa-user-${isFollowing ? 'minus' : 'plus'}"></i> <span>${isFollowing ? 'Unfollow' : 'Follow'}</span>`;
+
+            return postDiv;
+        }
+
+        // Toggle like
+        function toggleLike(postId) {
+            const post = app.posts.find(p => p.id === postId);
+            if (!post) return;
+
+            const userIndex = post.likes.indexOf(app.currentUser.id);
+            if (userIndex === -1) {
+                post.likes.push(app.currentUser.id);
+            } else {
+                post.likes.splice(userIndex, 1);
+            }
+
+            saveToLocalStorage();
+            loadPosts();
+        }
+
+        // Add comment
+        function addComment(postId, text) {
+            if (!text.trim()) return;
+
+            const post = app.posts.find(p => p.id === postId);
+            if (!post) return;
+
+            const newComment = {
+                userId: app.currentUser.id,
+                text,
+                timestamp: new Date().toISOString()
+            };
+
+            post.comments.push(newComment);
+            saveToLocalStorage();
+            loadPosts();
+        }
+
+        // Toggle follow
+        function toggleFollow(userId) {
+            if (userId === app.currentUser.id) return;
+
+            const followIndex = app.follows.findIndex(f =>
+                f.followerId === app.currentUser.id && f.followedId === userId
+            );
+
+            if (followIndex === -1) {
+                app.follows.push({
+                    followerId: app.currentUser.id,
+                    followedId: userId
+                });
+                showNotification('You are now following this user', 'success');
+            } else {
+                app.follows.splice(followIndex, 1);
+                showNotification('You unfollowed this user', 'success');
+            }
+
+            saveToLocalStorage();
+            loadPosts();
+        }
+
+        // Handle feed filter
+        function handleFeedFilter() {
+            loadPosts();
+        }
+
+        // Handle search
+        function handleSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            const activeTab = document.querySelector('.search-tab.active').getAttribute('data-search-type');
+
+            searchResults.innerHTML = '';
+
+            if (!query) {
+                searchResults.innerHTML = '<p>Enter a search term to find results</p>';
+                return;
+            }
+
+            if (activeTab === 'posts') {
+                const filteredPosts = app.posts.filter(post => {
+                    const user = app.users.find(u => u.id === post.userId);
+                    return user &&
+                        user.collegeId === app.currentUser.collegeId &&
+                        (post.content.toLowerCase().includes(query) ||
+                            user.name.toLowerCase().includes(query));
+                });
+
+                if (filteredPosts.length === 0) {
+                    searchResults.innerHTML = '<p>No posts found matching your search</p>';
+                    return;
+                }
+
+                filteredPosts.forEach(post => {
+                    const postElement = createPostElement(post);
+                    searchResults.appendChild(postElement);
+                });
+            } else if (activeTab === 'users') {
+                const filteredUsers = app.users.filter(user =>
+                    user.collegeId === app.currentUser.collegeId &&
+                    user.id !== app.currentUser.id &&
+                    (user.name.toLowerCase().includes(query) ||
+                        user.bio.toLowerCase().includes(query))
+                );
+
+                if (filteredUsers.length === 0) {
+                    searchResults.innerHTML = '<p>No users found matching your search</p>';
+                    return;
+                }
+
+                filteredUsers.forEach(user => {
+                    const userCard = createUserCard(user);
+                    searchResults.appendChild(userCard);
+                });
+            } else if (activeTab === 'colleges') {
+                const filteredColleges = app.colleges.filter(college =>
+                    college.name.toLowerCase().includes(query)
+                );
+
+                if (filteredColleges.length === 0) {
+                    searchResults.innerHTML = '<p>No colleges found matching your search</p>';
+                    return;
+                }
+
+                filteredColleges.forEach(college => {
+                    const collegeCard = document.createElement('div');
+                    collegeCard.className = 'card';
+                    collegeCard.innerHTML = `
+                        <div class="card-body">
+                            <h3>${college.name}</h3>
+                            <p>${app.users.filter(u => u.collegeId === college.id).length} students</p>
+                        </div>
+                    `;
+                    searchResults.appendChild(collegeCard);
+                });
+            }
+        }
+
+        // Create user card
+        function createUserCard(user) {
+            const isFollowing = app.follows.some(f =>
+                f.followerId === app.currentUser.id && f.followedId === user.id
+            );
+
+            const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+            userCard.innerHTML = `
+                <img src="${user.avatar}" alt="${user.name}" class="user-card-avatar">
+                <div class="user-card-info">
+                    <div class="user-card-name">${user.name}</div>
+                    <div class="user-card-college">${getCollegeName(user.collegeId)}</div>
+                </div>
+                <button class="btn ${isFollowing ? 'btn-outline' : ''}" data-user-id="${user.id}">
+                    ${isFollowing ? 'Unfollow' : 'Follow'}
+                </button>
+            `;
+
+            const followBtn = userCard.querySelector('button');
+            followBtn.addEventListener('click', () => {
+                toggleFollow(user.id);
+                // Update the button text
+                const updatedIsFollowing = app.follows.some(f =>
+                    f.followerId === app.currentUser.id && f.followedId === user.id
+                );
+                followBtn.textContent = updatedIsFollowing ? 'Unfollow' : 'Follow';
+                followBtn.className = `btn ${updatedIsFollowing ? 'btn-outline' : ''}`;
+            });
+
+            return userCard;
+        }
+
+        // Show page
+        function showPage(page) {
+            app.currentPage = page;
+
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+
+            // Show selected page
+            const pageElement = document.getElementById(`${page}-page`);
+            if (pageElement) {
+                pageElement.style.display = 'block';
+            }
+
+            // Update active nav link
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${page}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Load page-specific data
+            if (page === 'profile') {
+                loadUserProfile();
+                loadUserPosts();
+            } else if (page === 'search') {
+                searchInput.value = '';
+                searchResults.innerHTML = '<p>Enter a search term to find results</p>';
+            }
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            if (!app.currentUser) return;
+
+            profileName.textContent = app.currentUser.name;
+            profileCollege.textContent = getCollegeName(app.currentUser.collegeId);
+            profileBio.textContent = app.currentUser.bio || 'No bio available';
+            profileAvatar.src = app.currentUser.avatar;
+
+            // Calculate stats
+            const userPosts = app.posts.filter(p => p.userId === app.currentUser.id);
+            const following = app.follows.filter(f => f.followerId === app.currentUser.id);
+            const followers = app.follows.filter(f => f.followedId === app.currentUser.id);
+
+            profilePosts.textContent = userPosts.length;
+            profileFollowing.textContent = following.length;
+            profileFollowers.textContent = followers.length;
+        }
+
+        // Load user posts
+        function loadUserPosts() {
+            userPosts.innerHTML = '';
+
+            const userPostsList = app.posts
+                .filter(p => p.userId === app.currentUser.id)
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (userPostsList.length === 0) {
+                userPosts.innerHTML = '<p>You haven\'t posted anything yet</p>';
+                return;
+            }
+
+            userPostsList.forEach(post => {
+                const postElement = createPostElement(post);
+                userPosts.appendChild(postElement);
+            });
+        }
+
+        // Handle edit profile
+        function handleEditProfile() {
+    // Ask for bio
+    const newBio = prompt('Enter your bio:', app.currentUser.bio || '');
+    if (newBio === null) return; // cancelled
+
+    // Ask for new photo URL
+    const newAvatar = prompt('Enter profile photo URL (leave blank to keep current):', app.currentUser.avatar);
+
+    // Update current user
+    app.currentUser.bio = newBio;
+    if (newAvatar && newAvatar.trim() !== '') {
+        app.currentUser.avatar = newAvatar.trim();
+    }
+
+    // Update in users array
+    const userIndex = app.users.findIndex(u => u.id === app.currentUser.id);
+    if (userIndex !== -1) {
+        app.users[userIndex].bio = app.currentUser.bio;
+        if (newAvatar && newAvatar.trim() !== '') {
+            app.users[userIndex].avatar = app.currentUser.avatar;
+        }
+    }
+
+    saveToLocalStorage();
+    loadUserProfile();
+    loadPosts(); // refresh posts with new avatar
+    showNotification('Profile updated successfully!', 'success');
+}
+        // Get college name by ID
+        function getCollegeName(collegeId) {
+            const college = app.colleges.find(c => c.id === collegeId);
+            return college ? college.name : 'Unknown College';
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+
+            return date.toLocaleDateString();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type, 'show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+
+</html>
